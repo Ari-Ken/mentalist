@@ -1,0 +1,302 @@
+/**
+ * THE MENTALIST — SOVEREIGN DIGITAL MONEY & CAPITAL ALLOCATION TERMINAL
+ * "You Don't Spend. You Invest."
+ */
+
+.wallet-view-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Master Balance Header Card */
+.capital-hero-card {
+  background: linear-gradient(135deg, #101726 0%, #0a0f19 100%);
+  border: 1px solid var(--gold-primary);
+  border-radius: 8px;
+  padding: 32px;
+  box-shadow: var(--shadow-glow-gold);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.capital-hero-card::after {
+  content: 'SOVEREIGN CAPITAL';
+  position: absolute;
+  right: 20px;
+  bottom: -15px;
+  font-family: var(--font-mono);
+  font-size: 48px;
+  font-weight: 900;
+  color: rgba(212, 175, 55, 0.04);
+  letter-spacing: 0.1em;
+  pointer-events: none;
+}
+
+.capital-hero-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.capital-hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--gold-light);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.capital-hero-balance {
+  font-family: var(--font-mono);
+  font-size: 42px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.capital-hero-symbol {
+  color: var(--gold-primary);
+  font-size: 32px;
+}
+
+.capital-hero-tag {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+/* Grid of Capital Packages */
+.packages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.package-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.package-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold-primary);
+  box-shadow: var(--shadow-glow-gold);
+}
+
+.package-card.featured {
+  border-color: var(--gold-primary);
+  background: linear-gradient(180deg, rgba(212, 175, 55, 0.08) 0%, var(--bg-surface) 100%);
+}
+
+.package-featured-badge {
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  background: var(--gold-primary);
+  color: #000;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+  letter-spacing: 0.08em;
+}
+
+.package-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.package-tier-title {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  letter-spacing: 0.05em;
+}
+
+.package-coins-amount {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 900;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.package-bonus-chip {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--emerald-wealth);
+}
+
+.package-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.package-roi {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--cyan-primary);
+  padding: 6px 10px;
+  background: rgba(0, 229, 255, 0.08);
+  border-radius: 4px;
+  border-left: 2px solid var(--cyan-primary);
+}
+
+/* Discipline Bonds Section ("Skin in the Game") */
+.bonds-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bonds-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 20px;
+}
+
+.bond-card {
+  background: var(--bg-surface);
+  border: 1px solid rgba(255, 51, 102, 0.3);
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.bond-card.active-bond {
+  border-color: var(--cyan-primary);
+  background: linear-gradient(180deg, rgba(0, 229, 255, 0.06) 0%, var(--bg-surface) 100%);
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
+}
+
+.bond-title {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bond-details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.bond-forfeit-warning {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--crimson-danger);
+  background: rgba(255, 51, 102, 0.08);
+  padding: 8px 12px;
+  border-radius: 4px;
+  border-left: 2px solid var(--crimson-danger);
+}
+
+/* Transaction Ledger Table */
+.ledger-section {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ledger-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.ledger-table th {
+  text-align: left;
+  padding: 10px 14px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-subtle);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.ledger-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.ledger-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* High-Status Receipt Modal View */
+.receipt-box {
+  background: #080d16;
+  border: 1px solid var(--gold-primary);
+  border-radius: 6px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-family: var(--font-mono);
+}
+
+.receipt-stamp {
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--gold-light);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-bottom: 1px dashed var(--gold-dark);
+  padding-bottom: 12px;
+}
+
+.receipt-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.receipt-quote {
+  font-style: italic;
+  font-size: 12px;
+  color: var(--cyan-primary);
+  background: rgba(0, 229, 255, 0.05);
+  padding: 12px;
+  border-radius: 4px;
+  border-left: 3px solid var(--cyan-primary);
+}

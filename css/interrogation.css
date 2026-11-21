@@ -1,0 +1,434 @@
+/**
+ * THE MENTALIST — INTERROGATION CHAMBER STYLING
+ */
+
+.crucible-container {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 24px;
+  min-height: 650px;
+}
+
+@media (max-width: 960px) {
+  .crucible-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Left Sidebar: Interrogator Status & Biometrics */
+.mentalist-hud {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.mentalist-hud::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--cyan-primary);
+  transition: background var(--transition-smooth);
+}
+
+.mentalist-hud.mode-observer::before { background: var(--cyan-primary); }
+.mentalist-hud.mode-provocateur::before { background: var(--amber-warning); }
+.mentalist-hud.mode-interrogator::before { background: var(--crimson-danger); }
+.mentalist-hud.mode-trap-setter::before { background: var(--gold-primary); }
+
+.avatar-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border-medium);
+  background: #000;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.1) brightness(0.95);
+  transition: filter var(--transition-smooth);
+}
+
+.mentalist-hud.mode-interrogator .avatar-img {
+  filter: contrast(1.25) brightness(1.05) sepia(0.2) hue-rotate(-20deg);
+}
+
+.mode-badge-overlay {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  right: 8px;
+  background: rgba(8, 13, 20, 0.9);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--border-subtle);
+}
+
+/* Real-Time Hidden Biometric Gauges */
+.gauge-cluster {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.gauge-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gauge-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.gauge-track {
+  height: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  position: relative;
+}
+
+.gauge-fill {
+  height: 100%;
+  width: 0%;
+  transition: width 0.4s ease-out, background 0.3s;
+}
+
+.gauge-fill-load {
+  background: linear-gradient(90deg, #00e5ff 0%, #ffb300 70%, #ff3366 100%);
+}
+
+.gauge-fill-ego {
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+}
+
+.gauge-fill-scarcity {
+  background: linear-gradient(90deg, #ff0844, #ffb199);
+}
+
+.gauge-fill-stoic {
+  background: linear-gradient(90deg, #d4af37, #f3e5ab);
+}
+
+/* Main Interrogation Screen */
+.interrogation-stage {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.scenario-header {
+  padding: 16px 24px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.phase-stepper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.phase-step {
+  padding: 4px 10px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+}
+
+.phase-step.active {
+  background: var(--cyan-primary);
+  color: #000;
+  font-weight: 800;
+}
+
+.phase-step.passed {
+  background: rgba(0, 229, 255, 0.15);
+  color: var(--cyan-primary);
+}
+
+/* Hesitation Timer Bar */
+.hesitation-bar-container {
+  height: 4px;
+  background: rgba(0, 0, 0, 0.6);
+  position: relative;
+  width: 100%;
+}
+
+.hesitation-bar-fill {
+  height: 100%;
+  width: 100%;
+  background: var(--cyan-primary);
+  transition: width 0.1s linear, background 0.3s;
+}
+
+.hesitation-bar-fill.warning {
+  background: var(--amber-warning);
+}
+
+.hesitation-bar-fill.critical {
+  background: var(--crimson-danger);
+  animation: pulse-glow 0.4s infinite alternate;
+}
+
+/* Dialogue Transcript Feed */
+.dialogue-viewport {
+  flex: 1;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  min-height: 280px;
+  max-height: 400px;
+  background: radial-gradient(circle at 50% 10%, rgba(20, 30, 48, 0.3), transparent 70%);
+}
+
+.dialogue-bubble {
+  max-width: 85%;
+  padding: 16px 20px;
+  border-radius: 6px;
+  line-height: 1.6;
+  font-size: 15px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.bubble-mentalist {
+  align-self: flex-start;
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-left: 4px solid var(--cyan-primary);
+  color: #e2e8f0;
+}
+
+.bubble-mentalist.hostile {
+  border-left-color: var(--crimson-danger);
+  background: rgba(40, 10, 18, 0.5);
+}
+
+.bubble-mentalist.deceptive {
+  border-left-color: var(--gold-primary);
+  background: rgba(35, 28, 10, 0.5);
+}
+
+.bubble-speaker-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  letter-spacing: 0.08em;
+  color: var(--cyan-primary);
+}
+
+.bubble-player {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #122036 0%, #0d1727 100%);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  color: #fff;
+  border-right: 4px solid var(--cyan-primary);
+}
+
+/* Dynamic Response Dialogue Wheel */
+.dialogue-wheel-panel {
+  padding: 20px 24px;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wheel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.wheel-nodes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .wheel-nodes-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.wheel-node-card {
+  padding: 14px 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all var(--transition-fast);
+  text-align: left;
+}
+
+.wheel-node-card:hover {
+  transform: translateY(-2px);
+  background: var(--bg-card-hover);
+  border-color: var(--cyan-primary);
+  box-shadow: var(--shadow-glow-cyan);
+}
+
+.wheel-node-card.inversion-warning {
+  border-color: rgba(255, 51, 102, 0.45);
+  background: linear-gradient(135deg, rgba(255, 51, 102, 0.05) 0%, rgba(5, 7, 10, 0.9) 100%);
+  box-shadow: 0 0 10px rgba(255, 51, 102, 0.15);
+}
+
+.wheel-node-card.inversion-warning:hover {
+  border-color: var(--crimson-danger);
+  box-shadow: 0 0 16px rgba(255, 51, 102, 0.35);
+}
+
+.wheel-node-type {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.node-type-stoic { color: var(--gold-light); }
+.node-type-ego { color: #38bdf8; }
+.node-type-scarcity { color: var(--crimson-danger); }
+.node-type-counter { color: var(--emerald-wealth); }
+
+.wheel-node-text {
+  font-size: 13px;
+  color: #f1f5f9;
+  line-height: 1.4;
+}
+
+/* Black Swan Alert Banner */
+.black-swan-banner {
+  display: none;
+  background: linear-gradient(90deg, #4a0011 0%, #1a0008 100%);
+  border: 1px solid var(--crimson-danger);
+  padding: 12px 16px;
+  margin: 12px 24px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #ff99aa;
+  animation: pulse-glow 1s infinite alternate;
+}
+
+.black-swan-banner.active {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Archetype & Scenario Selection Grids */
+.archetype-select-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.archetype-select-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: 6px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.archetype-select-card:hover {
+  border-color: var(--cyan-primary);
+  background: rgba(0, 229, 255, 0.05);
+}
+
+.archetype-select-card.selected {
+  border-color: var(--cyan-primary);
+  background: rgba(0, 229, 255, 0.12);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+}
+
+.scenario-select-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.scenario-select-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: 6px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.scenario-select-card:hover {
+  border-color: var(--gold-primary);
+  background: rgba(212, 175, 55, 0.05);
+}
+
+.scenario-select-card.selected {
+  border-color: var(--gold-primary);
+  background: rgba(212, 175, 55, 0.12);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
+}
+

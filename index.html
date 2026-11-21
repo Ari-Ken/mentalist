@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>The Mentalist — American Mind Psychology & Interrogation Simulator</title>
+  
+  <!-- PWA & SEO Metadata -->
+  <meta name="description" content="High-stakes American builder psychological simulator, stress inoculation crucible, cognitive capital economy, and installable PWA.">
+  <meta name="theme-color" content="#070a0e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="The Mentalist">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" href="./assets/icons/icon-192.png">
+
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="./css/theme.css?v=1.3">
+  <link rel="stylesheet" href="./css/layout.css?v=1.3">
+  <link rel="stylesheet" href="./css/interrogation.css?v=1.3">
+  <link rel="stylesheet" href="./css/wallet.css?v=1.3">
+  <link rel="stylesheet" href="./css/gym.css?v=1.3">
+  <link rel="stylesheet" href="./css/radar.css?v=1.3">
+  <link rel="stylesheet" href="./css/empire.css?v=1.3">
+
+  <!-- Flutterwave v3 Inline SDK (The ONLY external third-party connection) -->
+  <script src="https://checkout.flutterwave.com/v3.js"></script>
+</head>
+<body>
+  <!-- CRT Scanline Overlay -->
+  <div class="crt-overlay"></div>
+
+  <div class="app-container">
+    <!-- Top Terminal Command Bar -->
+    <header class="terminal-header">
+      <div class="brand-section">
+        <img src="./assets/icons/logo-shield.png" alt="The Mentalist Emblem" class="brand-logo" id="brandLogo">
+        <div>
+          <div class="brand-title">THE MENTALIST <span class="badge badge-gold">SURGICAL SIMULATOR</span></div>
+          <div class="brand-subtitle font-mono">AMERICAN BUILDER PSYCHOLOGY // VER. 1.0</div>
+        </div>
+      </div>
+
+      <!-- Telemetry Center -->
+      <div class="header-telemetry">
+        <div class="telemetry-item" title="Subject Biometric Pulse">
+          <span class="heartbeat-dot" id="telemetryHeartbeatDot"></span>
+          <span class="telemetry-label">PULSE:</span>
+          <span class="telemetry-value text-danger" id="telemetryBpm">68 BPM</span>
+        </div>
+        <div class="telemetry-item" title="Stress Inoculation Load">
+          <span class="telemetry-label">LOAD:</span>
+          <span class="telemetry-value text-cyan" id="telemetryCognitiveLoad">15%</span>
+        </div>
+        <div class="telemetry-item" title="Network Connection Status">
+          <span class="telemetry-label">UPLINK:</span>
+          <span class="telemetry-value text-cyan" id="telemetryNetworkStatus">LINKED</span>
+        </div>
+      </div>
+
+      <!-- Header Actions & Capital Wallet -->
+      <div class="header-actions">
+        <button class="wallet-pill" id="headerWalletPill" title="Open Sovereign Capital Terminal">
+          <span class="text-gold font-mono" style="font-size: 15px;">₡</span>
+          <span class="wallet-amount" id="headerWalletAmount">1,200 CC</span>
+        </button>
+
+        <button class="btn-terminal" id="btnAudioToggle" title="Toggle Interrogation Soundscape">
+          <span id="audioStatusText">🔊 SFX ON</span>
+        </button>
+
+        <button class="btn-terminal" id="btnOpenSettings" title="Configure Flutterwave API Details & System Security">
+          <span>⚙ CONFIG</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Navigation Bar -->
+    <nav class="main-nav" id="mainNavBar">
+      <button class="nav-tab active" data-tab="crucible">⚡ The Crucible</button>
+      <button class="nav-tab" data-tab="gym">🧠 Cognitive Gym</button>
+      <button class="nav-tab" data-tab="yard" id="navTabYard">🔒 The Yard <span class="badge badge-danger" id="yardBadge" style="display:none;">JAILED</span></button>
+      <button class="nav-tab" data-tab="radar">📊 Mind Graph</button>
+      <button class="nav-tab" data-tab="empire">🏛️ American Empire</button>
+      <button class="nav-tab" data-tab="wallet">💰 Sovereign Wallet</button>
+    </nav>
+
+    <!-- Main Dynamic Viewport -->
+    <main class="main-viewport">
+      <!-- PWA Install Banner -->
+      <div class="pwa-install-bar" id="pwaInstallBar">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <img src="./assets/icons/icon-192.png" style="width: 32px; height: 32px; border-radius: 4px;" alt="App Icon">
+          <div>
+            <div style="font-weight: 700; color: #fff;">INSTALL THE MENTALIST AS AN APPLICATION</div>
+            <div style="font-size: 12px; color: var(--text-secondary);">Direct browser execution with offline cache and standalone terminal window.</div>
+          </div>
+        </div>
+        <button class="btn-terminal btn-gold" id="btnTriggerPwaInstall">INSTALL APP</button>
+      </div>
+
+      <!-- TAB 1: THE CRUCIBLE (INTERROGATION CHAMBER) -->
+      <section class="view-section active" id="view-crucible">
+        <div class="crucible-container">
+          <!-- Left: Mentalist Avatar & Live Biometric HUD -->
+          <div class="mentalist-hud mode-observer" id="mentalistHud">
+            <div class="avatar-frame">
+              <img src="./assets/images/mentalist_avatar.jpg" alt="The Mentalist" class="avatar-img" id="mentalistAvatarImg">
+              <div class="mode-badge-overlay">
+                <span class="text-cyan" id="mentalistModeLabel">MODE: OBSERVER</span>
+                <span class="text-muted" id="mentalistArchetypeLabel">TECH DISRUPTOR</span>
+              </div>
+            </div>
+
+            <div class="gauge-cluster">
+              <!-- Cognitive Load Gauge -->
+              <div class="gauge-item">
+                <div class="gauge-label-row">
+                  <span>COGNITIVE LOAD (STRESS)</span>
+                  <span id="labelLoadPercent">15%</span>
+                </div>
+                <div class="gauge-track">
+                  <div class="gauge-fill gauge-fill-load" id="fillCognitiveLoad" style="width: 15%;"></div>
+                </div>
+              </div>
+
+              <!-- Ego / Defensiveness Gauge -->
+              <div class="gauge-item">
+                <div class="gauge-label-row">
+                  <span>EGO / DEFENSIVENESS</span>
+                  <span id="labelEgoPercent">20%</span>
+                </div>
+                <div class="gauge-track">
+                  <div class="gauge-fill gauge-fill-ego" id="fillEgo" style="width: 20%;"></div>
+                </div>
+              </div>
+
+              <!-- Scarcity / Fear Gauge -->
+              <div class="gauge-item">
+                <div class="gauge-label-row">
+                  <span>SCARCITY / FEAR INDEX</span>
+                  <span id="labelScarcityPercent">25%</span>
+                </div>
+                <div class="gauge-track">
+                  <div class="gauge-fill gauge-fill-scarcity" id="fillScarcity" style="width: 25%;"></div>
+                </div>
+              </div>
+
+              <!-- Stoic / Wealth Alignment Gauge -->
+              <div class="gauge-item">
+                <div class="gauge-label-row">
+                  <span>STOIC WEALTH ALIGNMENT</span>
+                  <span id="labelStoicPercent">40%</span>
+                </div>
+                <div class="gauge-track">
+                  <div class="gauge-fill gauge-fill-stoic" id="fillStoic" style="width: 40%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interrogation Controls -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <button class="btn-terminal" id="btnRestartScenario">↺ RESTART CASE</button>
+              <button class="btn-terminal" id="btnSwitchScenario">📁 SELECT CASE STUDY</button>
+            </div>
+          </div>
+
+          <!-- Right: Interrogation Stage -->
+          <div class="interrogation-stage">
+            <div class="scenario-header">
+              <div>
+                <div class="badge badge-cyan" id="scenarioFieldBadge">TECH DISRUPTOR CRUCIBLE</div>
+                <h2 style="font-family: var(--font-mono); font-size: 16px; margin-top: 4px;" id="scenarioTitleText">The Sunk Cost & Ego Crucible</h2>
+              </div>
+              <div class="phase-stepper" id="phaseStepper">
+                <span class="phase-step active" id="step1">INTAKE</span>
+                <span class="phase-step" id="step2">PROBE</span>
+                <span class="phase-step" id="step3">CRUCIBLE</span>
+                <span class="phase-step" id="step4">SQUEEZE</span>
+                <span class="phase-step" id="step5">VERDICT</span>
+              </div>
+            </div>
+
+            <!-- Hesitation Countdown Progress Bar -->
+            <div class="hesitation-bar-container">
+              <div class="hesitation-bar-fill" id="hesitationBarFill"></div>
+            </div>
+
+            <!-- Black Swan Crisis Warning -->
+            <div class="black-swan-banner" id="blackSwanBanner"></div>
+
+            <!-- Dialogue Transcript Viewport -->
+            <div class="dialogue-viewport" id="dialogueViewport">
+              <!-- Dynamically populated streaming transcript -->
+            </div>
+
+            <!-- Dynamic Dialogue Wheel -->
+            <div class="dialogue-wheel-panel" id="dialogueWheelPanel">
+              <div class="wheel-header">
+                <span>DYNAMIC DIALOGUE WHEEL // SELECT YOUR STRATEGIC POSITION:</span>
+                <span class="font-mono text-cyan" id="hesitationTimerLabel">RESPONSE CLOCK: 0.0s</span>
+              </div>
+              <div class="wheel-nodes-grid" id="wheelNodesContainer">
+                <!-- Dynamically populated 4 semantic nodes -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: COGNITIVE GYM (FLIP THE SCRIPT & PROBABILITY) -->
+      <section class="view-section" id="view-gym">
+        <div class="gym-container">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h2 style="font-family: var(--font-mono); font-size: 22px; color: #fff;">COGNITIVE GYM: NEURO-TRAINING</h2>
+              <div style="font-size: 13px; color: var(--text-secondary);">Train your prefrontal cortex to identify cognitive distortions and master probabilistic decisions under duress.</div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn-terminal active" id="btnTabCBT">FLIP THE SCRIPT (CBT)</button>
+              <button class="btn-terminal" id="btnTabProbability">PROBABILITY CALIBRATION</button>
+            </div>
+          </div>
+
+          <!-- CBT Drill Box -->
+          <div class="cbt-game-box" id="cbtDrillBox">
+            <div class="cbt-header">
+              <div>
+                <span class="badge badge-cyan">CLINICAL CBT SPEED DRILL</span>
+                <h3 style="font-family: var(--font-mono); font-size: 16px; margin-top: 4px;">Rapid Cognitive Distortion Reframing</h3>
+              </div>
+              <div style="display: flex; align-items: center; gap: 16px;">
+                <div class="font-mono" style="font-size: 13px; color: var(--text-muted);">SCORE: <span class="text-gold" id="cbtScoreDisplay">0</span></div>
+                <div class="cbt-timer" id="cbtTimerDisplay">60s</div>
+                <button class="btn-terminal btn-gold" id="btnStartCbtDrill">START DRILL</button>
+              </div>
+            </div>
+
+            <div class="cbt-distortion-card" id="cbtDistortionCard">
+              <div class="cbt-distortion-label" id="cbtDistortionType">DISTORTION: CATASTROPHIZING & SUNK COST</div>
+              <div class="cbt-distortion-text" id="cbtDistortionPrompt">"Your startup burned $5M and failed. You are a biological failure who will never build anything."</div>
+            </div>
+
+            <div class="cbt-options-grid" id="cbtOptionsGrid">
+              <!-- Dynamically populated options -->
+            </div>
+          </div>
+
+          <!-- Probability Simulator Box (Hidden by default) -->
+          <div class="cbt-game-box" id="probabilityBox" style="display: none;">
+            <div class="cbt-header">
+              <div>
+                <span class="badge badge-gold">BEHAVIORAL FINANCE SIMULATOR</span>
+                <h3 style="font-family: var(--font-mono); font-size: 16px; margin-top: 4px;" id="probCaseTitle">Expected Value vs Loss Aversion</h3>
+              </div>
+            </div>
+            <div class="cbt-distortion-card" style="border-left-color: var(--gold-primary);">
+              <div class="cbt-distortion-label" style="color: var(--gold-light);">HIGH-STAKES SCENARIO:</div>
+              <div class="cbt-distortion-text" id="probCaseScenario">Calculating dilemma...</div>
+            </div>
+            <div style="display: flex; gap: 16px; margin-top: 10px;">
+              <button class="btn-terminal" style="flex: 1;" id="btnProbGuaranteed">CHOOSE GUARANTEED PAYOUT (Averse)</button>
+              <button class="btn-terminal btn-gold" style="flex: 1;" id="btnProbRisk">CHOOSE POSITIVE EXPECTED VALUE (+EV)</button>
+            </div>
+            <div id="probFeedbackBox" style="margin-top: 16px; font-size: 13px; line-height: 1.5; color: var(--cyan-primary);"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: THE YARD (JAIL & REHABILITATION) -->
+      <section class="view-section" id="view-yard">
+        <div class="yard-view">
+          <div class="yard-bars-overlay"></div>
+          <div class="yard-header">
+            <div class="yard-title-row">
+              <span style="font-size: 32px;">⛓️</span>
+              <div>
+                <div class="yard-title">THE YARD // COGNITIVE DETENTION CENTER</div>
+                <div style="font-size: 12px; color: var(--text-muted); font-family: var(--font-mono);">FAILURE IS NOT GAME OVER // MANDATORY PSYCHOLOGICAL RESET</div>
+              </div>
+            </div>
+            <button class="btn-terminal btn-gold" id="btnCompleteRehab">COMPLETE REHABILITATION MODULE</button>
+          </div>
+
+          <div class="yard-post-mortem" id="yardPostMortemBox">
+            <div class="post-mortem-badge">⚠ CLINICAL CAUSE OF DETENTION:</div>
+            <div class="post-mortem-quote" id="yardReasonText">
+              "Subject fell for Loss Aversion under duress. Chosen path surrendered corporate governance in exchange for temporary emotional comfort."
+            </div>
+          </div>
+
+          <h3 style="font-family: var(--font-mono); font-size: 14px; text-transform: uppercase; color: #fff; margin-bottom: 16px;">
+            MANDATORY REHABILITATION MODULES:
+          </h3>
+          <div class="rehab-grid" id="rehabModulesGrid">
+            <!-- Dynamically populated modules -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: MIND GRAPH (CLINICAL RADAR ANALYTICS) -->
+      <section class="view-section" id="view-radar">
+        <div class="radar-view-container">
+          <!-- Canvas Radar Visualizer -->
+          <div class="radar-canvas-panel">
+            <div style="text-align: center;">
+              <div class="badge badge-cyan">PSYCHOMETRIC RADAR</div>
+              <h3 style="font-family: var(--font-mono); font-size: 18px; margin-top: 6px;">CLINICAL MIND GRAPH</h3>
+              <div style="font-size: 12px; color: var(--text-secondary);">6-Axis Behavioral Fingerprint</div>
+            </div>
+
+            <div class="radar-canvas-wrapper">
+              <canvas id="mindGraphCanvas" style="border-radius: 6px !important;"></canvas>
+            </div>
+
+            <div style="font-family: var(--font-mono); text-align: center;">
+              <div class="text-muted" style="font-size: 11px;">WEALTH INTELLIGENCE QUOTIENT (WIQ):</div>
+              <div class="text-gold" style="font-size: 36px; font-weight: 900;" id="wiqScoreDisplay">74 / 100</div>
+            </div>
+
+            <button class="btn-terminal btn-gold" id="btnExportDossierCard" style="width: 100%;">
+              📥 EXPORT CLEARANCE CARD
+            </button>
+          </div>
+
+          <!-- Metrics Detail & Clearance Dossier -->
+          <div class="radar-metrics-panel">
+            <div class="clearance-dossier">
+              <div class="dossier-title">
+                <span>OFFICIAL PSYCHIATRIC CLEARANCE</span>
+                <span class="badge badge-success" id="dossierClearanceBadge">CLEARANCE CERTIFIED</span>
+              </div>
+              <div class="dossier-body" id="dossierBodyText">
+                Subject exhibits superior stoic emotional regulation under hostile misdirection. Low susceptibility to predatory honey-traps. Recommended for high-autonomy executive capital allocation.
+              </div>
+            </div>
+
+            <div class="radar-metrics-grid" id="radarMetricsGrid">
+              <!-- Dynamically populated 6 metric cards -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: AMERICAN EMPIRE (INFRASTRUCTURE & SKILLS) -->
+      <section class="view-section" id="view-empire">
+        <div class="empire-container">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h2 style="font-family: var(--font-mono); font-size: 22px; color: #fff;">THE AMERICAN EMPIRE</h2>
+              <div style="font-size: 13px; color: var(--text-secondary);">Construct tangible cognitive infrastructure and equip psychological defenses using Mind Capital.</div>
+            </div>
+            <div class="wallet-pill">
+              <span class="text-gold font-mono">AVAILABLE CAPITAL:</span>
+              <span class="wallet-amount" id="empireWalletBalance">1,200 CC</span>
+            </div>
+          </div>
+
+          <!-- Daily Dossier Streak Section -->
+          <div class="daily-dossiers-section">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span class="badge badge-gold">DAILY DISCIPLINE DOSSIER</span>
+                <h3 style="font-family: var(--font-mono); font-size: 16px; margin-top: 4px;" id="dossierDayTitle">Dossier #01: The Asymmetric Bet</h3>
+              </div>
+              <div class="streak-bar-wrap">
+                <span class="text-muted">MOMENTUM STREAK:</span>
+                <span class="badge badge-cyan" id="dossierStreakBadge">🔥 3 DAYS</span>
+              </div>
+            </div>
+            <div style="font-size: 13px; line-height: 1.5; color: #cbd5e1;" id="dossierScenarioText">
+              Scenario text loading...
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px;" id="dossierOptionsContainer">
+              <!-- Daily options -->
+            </div>
+            <div style="font-size: 11px; font-family: var(--font-mono); color: var(--cyan-primary);" id="dossierChallengeText">
+              Real-World Challenge...
+            </div>
+          </div>
+
+          <!-- Base Infrastructure Buildings Grid -->
+          <div>
+            <h3 style="font-family: var(--font-mono); font-size: 14px; text-transform: uppercase; color: #fff; margin-bottom: 16px;">
+              COGNITIVE INFRASTRUCTURE FACILITIES:
+            </h3>
+            <div class="empire-hero-grid" id="empireBuildingsGrid">
+              <!-- Dynamically populated buildings -->
+            </div>
+          </div>
+
+          <!-- Skill Tree Defenses -->
+          <div class="skill-tree-section">
+            <h3 style="font-family: var(--font-mono); font-size: 14px; text-transform: uppercase; color: #fff; margin-bottom: 16px;">
+              PSYCHOLOGICAL DEFENSE SKILL TREE:
+            </h3>
+            <div class="skill-tree-grid" id="skillTreeGrid">
+              <!-- Dynamically populated skills -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 6: SOVEREIGN WALLET (FLUTTERWAVE GATEWAY & BONDS) -->
+      <section class="view-section" id="view-wallet">
+        <div class="wallet-view-container">
+          <!-- Sovereign Balance Header -->
+          <div class="capital-hero-card">
+            <div class="capital-hero-info">
+              <div class="capital-hero-eyebrow">
+                <span>★ SOVEREIGN DIGITAL MONEY TERMINAL</span>
+                <span class="badge badge-gold">FLUTTERWAVE POWERED</span>
+              </div>
+              <div class="capital-hero-balance">
+                <span class="capital-hero-symbol">₡</span>
+                <span id="heroBalanceNumber">1,200</span>
+                <span class="capital-hero-tag">Cognitive Credits (CC)</span>
+              </div>
+              <div style="font-size: 13px; color: var(--text-secondary);">
+                "You Don't Spend. You Invest." Capital is allocated to construct cognitive infrastructure, acquire Munger mental models, and stake Discipline Bonds.
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-end;">
+              <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);">
+                MODE: <span class="text-gold" id="paymentModeBadge">FLUTTERWAVE LIVE</span>
+              </div>
+              <button class="btn-terminal btn-gold" id="btnQuickFund" style="padding: 12px 24px; font-size: 13px;">
+                + ALLOCATE CAPITAL
+              </button>
+            </div>
+          </div>
+
+          <!-- Capital Packages Grid -->
+          <div>
+            <div style="margin-bottom: 16px;">
+              <h3 style="font-family: var(--font-mono); font-size: 16px; color: #fff;">SELECT CAPITAL ALLOCATION TIER:</h3>
+              <div style="font-size: 12px; color: var(--text-secondary);">Secure checkout via Flutterwave. Funds convert instantly into Cognitive Credits.</div>
+            </div>
+            <div class="packages-grid" id="packagesGrid">
+              <!-- Dynamically populated packages -->
+            </div>
+          </div>
+
+          <!-- Discipline Bonds Section -->
+          <div class="bonds-section">
+            <div>
+              <span class="badge badge-danger">BEHAVIORAL ECONOMICS MASTERSTROKE</span>
+              <h3 style="font-family: var(--font-mono); font-size: 16px; color: #fff; margin-top: 4px;">"SKIN IN THE GAME" DISCIPLINE BONDS</h3>
+              <div style="font-size: 12px; color: var(--text-secondary);">Voluntarily lock real capital for 30 days. Maintain your streak to earn 125% - 150% back with yield. Failure forfeits to charity.</div>
+            </div>
+            <div class="bonds-grid" id="bondsGrid">
+              <!-- Dynamically populated bonds -->
+            </div>
+          </div>
+
+          <!-- Transaction Ledger -->
+          <div class="ledger-section">
+            <h3 style="font-family: var(--font-mono); font-size: 14px; text-transform: uppercase; color: #fff;">
+              SOVEREIGN CAPITAL ALLOCATION LEDGER:
+            </h3>
+            <table class="ledger-table">
+              <thead>
+                <tr>
+                  <th>TX REFERENCE</th>
+                  <th>TIMESTAMP</th>
+                  <th>DESCRIPTION</th>
+                  <th>USD VALUE</th>
+                  <th>CREDITS (₡)</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody id="ledgerTableBody">
+                <!-- Dynamically populated rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL: High-Status Capital Receipt -->
+  <div class="modal-backdrop" id="receiptModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="font-mono" style="font-weight: 800; color: var(--gold-light);">CAPITAL ALLOCATION RECEIPT</span>
+        <button class="btn-terminal" id="btnCloseReceiptModal" style="padding: 4px 8px;">✕</button>
+      </div>
+      <div class="modal-body" id="receiptModalBody">
+        <!-- Rendered by payment.js -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn-terminal btn-gold" id="btnReceiptAcknowledge">ACKNOWLEDGE & DEPLOY CAPITAL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Executive API Key & Security Terminal -->
+  <div class="modal-backdrop" id="settingsModal">
+    <div class="modal-box" style="max-width: 650px;">
+      <div class="modal-header">
+        <span class="font-mono" style="font-weight: 800; color: var(--cyan-primary);">EXECUTIVE SECURITY & FLUTTERWAVE API TERMINAL</span>
+        <button class="btn-terminal" id="btnCloseSettingsModal" style="padding: 4px 8px;">✕</button>
+      </div>
+      <div class="modal-body" style="display: flex; flex-direction: column; gap: 16px;">
+        <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
+          Configure your Flutterwave payment credentials and test switches. Your keys are securely loaded from <code class="font-mono text-cyan">config/flutterwave.config.js</code> or live-stored in encrypted local state.
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <label class="font-mono" style="font-size: 11px; color: var(--gold-light);">FLUTTERWAVE PUBLIC KEY:</label>
+          <input type="text" id="inputFlwPublicKey" class="btn-terminal font-mono" style="text-align: left; cursor: text;" placeholder="FLWPUBK-xxxxxxxxxxxx-X">
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <label class="font-mono" style="font-size: 11px; color: var(--text-muted);">FLUTTERWAVE SECRET KEY (OPTIONAL SERVER):</label>
+          <input type="password" id="inputFlwSecretKey" class="btn-terminal font-mono" style="text-align: left; cursor: text;" placeholder="FLWSECK-xxxxxxxxxxxx-X">
+        </div>
+
+        <div style="display: flex; gap: 16px;">
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 6px;">
+            <label class="font-mono" style="font-size: 11px; color: var(--text-muted);">CURRENCY:</label>
+            <input type="text" id="inputFlwCurrency" class="btn-terminal font-mono" style="text-align: left; cursor: text;" value="USD">
+          </div>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 6px;">
+            <label class="font-mono" style="font-size: 11px; color: var(--text-muted);">ENVIRONMENT:</label>
+            <select id="selectFlwEnv" class="btn-terminal font-mono" style="cursor: pointer;">
+              <option value="live">Live (Production)</option>
+              <option value="sandbox">Sandbox (Testing)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="background: rgba(0, 229, 255, 0.05); border: 1px solid var(--border-subtle); padding: 12px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <div class="font-mono" style="font-weight: 700; color: #fff;">DEV SIMULATION MODE</div>
+            <div style="font-size: 11px; color: var(--text-muted);">Test funding balances with zero card charges during development.</div>
+          </div>
+          <input type="checkbox" id="checkDevSimulation" style="width: 20px; height: 20px; cursor: pointer;">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-terminal" id="btnCancelSettings">CANCEL</button>
+        <button class="btn-terminal btn-gold" id="btnSaveSettings">SAVE CONFIGURATION</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Case Study & Archetype Selection Dossier -->
+  <div class="modal-backdrop" id="caseSelectionModal">
+    <div class="modal-box" style="max-width: 800px;">
+      <div class="modal-header">
+        <span class="font-mono" style="font-weight: 800; color: var(--gold-light);">CLASSIFIED CASE SELECTION // PSYCHOMETRIC CRUCIBLE</span>
+        <button class="btn-terminal" id="btnCloseCaseModal" style="padding: 4px 8px;">✕</button>
+      </div>
+      <div class="modal-body" style="display: flex; flex-direction: column; gap: 20px;">
+        <div>
+          <label class="font-mono" style="font-size: 11px; color: var(--cyan-primary); letter-spacing: 1px;">STEP 1: SELECT YOUR AMERICAN BUILDER ARCHETYPE</label>
+          <div class="archetype-select-grid" id="archetypeSelectGrid">
+            <!-- Dynamically populated 4 archetypes -->
+          </div>
+        </div>
+
+        <div>
+          <label class="font-mono" style="font-size: 11px; color: var(--gold-light); letter-spacing: 1px;">STEP 2: SELECT CRUCIBLE SCENARIO DOSSIER</label>
+          <div class="scenario-select-grid" id="scenarioSelectGrid">
+            <!-- Dynamically populated 5 master scenarios -->
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-terminal" id="btnCancelCaseModal">CANCEL</button>
+        <button class="btn-terminal btn-gold" id="btnLaunchSelectedCase">⚡ INITIATE INTERROGATION</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Interactive Rehab Exercise Modal -->
+  <div class="modal-backdrop" id="rehabModal">
+    <div class="modal-box" style="max-width: 650px;">
+      <div class="modal-header">
+        <span class="font-mono" style="font-weight: 800; color: var(--crimson-danger);">THE YARD // CLINICAL REHABILITATION EXERCISE</span>
+        <button class="btn-terminal" id="btnCloseRehabModal" style="padding: 4px 8px;">✕</button>
+      </div>
+      <div class="modal-body" style="display: flex; flex-direction: column; gap: 16px;">
+        <div id="rehabModalHeader">
+          <div class="badge badge-cyan" id="rehabFrameworkBadge">BEHAVIORAL FINANCE</div>
+          <h3 style="font-family: var(--font-mono); font-size: 16px; margin-top: 6px;" id="rehabModalTitle">Extinguishing Loss Aversion</h3>
+          <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;" id="rehabModalDesc">Description text...</div>
+        </div>
+
+        <div class="cbt-distortion-card" style="border-left-color: var(--crimson-danger);">
+          <div class="cbt-distortion-label" style="color: #ff99aa;">CLINICAL DILEMMA PROMPT:</div>
+          <div class="cbt-distortion-text" id="rehabQuestionPrompt">Dilemma prompt...</div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px;" id="rehabChoicesContainer">
+          <!-- Dynamically populated choices -->
+        </div>
+
+        <div id="rehabFeedbackBox" style="display: none; padding: 12px; border-radius: 4px; font-family: var(--font-mono); font-size: 12px; line-height: 1.5;"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-terminal" id="btnDismissRehabModal">CANCEL</button>
+        <button class="btn-terminal btn-gold" id="btnCompleteRehabAndRelease" style="display: none;">RESTORE CLEARANCE & RETURN TO CRUCIBLE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Master Application Script -->
+  <script type="module" src="./js/app.js?v=1.3"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "the-mentalist",
+  "version": "1.0.0",
+  "description": "The Mentalist - High-Stakes Psychological Simulator, American Builder Interrogation Engine & Cognitive Gym",
+  "main": "js/app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "psychology",
+    "interrogation",
+    "behavioral-economics",
+    "cbt",
+    "pwa",
+    "flutterwave"
+  ],
+  "author": "The Mentalist Architecture",
+  "license": "UNLICENSED"
+}
